@@ -17,7 +17,7 @@ public class GoogleHomePageSmoke extends DriverBase {
 		return driver -> driver.getTitle().toLowerCase().startsWith(searchString.toLowerCase());
 	}
 
-	@Test(priority = 10)
+	@Test(priority = 1)
 	public void googleCheeseExample() {
 		logger = extent.createTest("Navigate to Google and Search");
 		WebDriver driver = getDriver();

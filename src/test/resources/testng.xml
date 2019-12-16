@@ -10,9 +10,13 @@
 		value="ranotestautomation@gmail.com" />
 	<parameter name="senderName" value="Rano" />
 	<parameter name="senderPassword" value="jimmy_007" />
-	<test name="Test One">
+	<test name="Test One" preserve-order="true">
 		<classes>
 			<class name="com.rano.selenium.script.NewToursSmoke" />
+		</classes>
+	</test>
+	<test name="Test two" preserve-order="true">
+		<classes>
 			<class name="com.rano.selenium.script.GoogleHomePageSmoke" />
 		</classes>
 	</test>
