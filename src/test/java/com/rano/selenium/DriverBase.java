@@ -86,7 +86,7 @@ public class DriverBase {
 	public void startReport(ITestContext ctx) {
 		suiteName = ctx.getCurrentXmlTest().getSuite().getName();
 		String className = this.getClass().getSimpleName();
-		htmlReporter = new ExtentHtmlReporter("./test-output/" + className + ".html");
+		htmlReporter = new ExtentHtmlReporter("./../temp/test-output/" + className + ".html");
 		extent = new ExtentReports();
 		extent.attachReporter(htmlReporter);
 		extent.setSystemInfo("Host Name", "New Tours");
@@ -133,8 +133,8 @@ public class DriverBase {
 		String dateName = timeMilli.toString();
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
-		String destination = "./TestsScreenshots/" + screenshotName + dateName + ".png";
-		String finalDestination = "./../TestsScreenshots/" + screenshotName + dateName + ".png";
+		String destination = "./../temp/TestsScreenshots/" + screenshotName + dateName + ".png";
+		String finalDestination = "./../temp/../TestsScreenshots/" + screenshotName + dateName + ".png";
 		File file = new File(destination);
 		try {
 			FileUtils.copyFile(source, file);
@@ -160,13 +160,13 @@ public class DriverBase {
 
 	@BeforeSuite(alwaysRun = true)
 	public void clearData() {
-		String source1 = "./TestsScreenshots";
+		String source1 = "./../temp/TestsScreenshots";
 		File file1 = new File(source1);
-		String source2 = "./Report";
+		String source2 = "./../temp/Report";
 		File file2 = new File(source2);
-		String source3 = "./test-output";
+		String source3 = "./../temp/test-output";
 		File file3 = new File(source3);
-		String source4 = "./EmailableReport";
+		String source4 = "./../temp/EmailableReport.zip";
 		File file4 = new File(source4);
 		try {
 			if (file1.exists()) {
@@ -179,24 +179,24 @@ public class DriverBase {
 				FileUtils.deleteDirectory(file3);
 			}
 			if (file4.exists()) {
-				FileUtils.deleteDirectory(file4);
+				file4.delete();
 			}
 		} catch (IOException e) {
 			LOGGER.info(e.getMessage());
 		}
 
-		new File("./test-output").mkdir();
-		new File("./TestsScreenshots").mkdir();
+		new File("./../temp/test-output").mkdir();
+		new File("./../temp/TestsScreenshots").mkdir();
 	}
 
 	@Parameters({ "toEmailId", "fromEmailId", "senderName", "senderPassword" })
 	@AfterSuite(alwaysRun = true)
 	public void sendMail(String toEmailId, String fromEmailId, String senderName, String senderPassword) {
-		String source1 = "./test-output";
-		String source2 = "./TestsScreenshots";
-		String destination = "./Report";
-		String destination1 = "./Report/test-output";
-		String destination2 = "./Report/TestsScreenshots";
+		String source1 = "./../temp/test-output";
+		String source2 = "./../temp/TestsScreenshots";
+		String destination = "./../temp/Report";
+		String destination1 = "./../temp/Report/test-output";
+		String destination2 = "./../temp/Report/TestsScreenshots";
 
 		new File(destination).mkdir();
 		File sourceFile1 = new File(source1);
@@ -233,7 +233,6 @@ public class DriverBase {
 			message.setSubject("Automation Test Report");
 
 			BodyPart messageBodyPart1 = new MimeBodyPart();
-			// messageBodyPart1.setText(createBodyForTheMail());
 			messageBodyPart1.setContent(createBodyForTheMail(), "text/html; charset=utf-8");
 
 			MimeBodyPart messageBodyPart2 = new MimeBodyPart();

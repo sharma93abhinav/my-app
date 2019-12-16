@@ -13,9 +13,9 @@ public class ZipFolder {
 
 	private List<String> fileList;
 
-	private static final String OUTPUT_ZIP_FILE = "./EmailableReport.zip";
+	private static final String OUTPUT_ZIP_FILE = "./../temp/EmailableReport.zip";
 
-	private static final String SOURCE_FOLDER = "./Report";
+	private static final String SOURCE_FOLDER = "./../temp/Report";
 
 	public ZipFolder() {
 		fileList = new ArrayList<String>();
