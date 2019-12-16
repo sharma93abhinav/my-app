@@ -86,7 +86,7 @@ public class DriverBase {
 	public void startReport(ITestContext ctx) {
 		suiteName = ctx.getCurrentXmlTest().getSuite().getName();
 		String className = this.getClass().getSimpleName();
-		htmlReporter = new ExtentHtmlReporter("./temp/TestOutput/" + className + ".html");
+		htmlReporter = new ExtentHtmlReporter("./TestOutput/" + className + ".html");
 		extent = new ExtentReports();
 		extent.attachReporter(htmlReporter);
 		extent.setSystemInfo("Host Name", "New Tours");
@@ -133,8 +133,8 @@ public class DriverBase {
 		String dateName = timeMilli.toString();
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
-		String destination = "./temp/TestsScreenshots/" + screenshotName + dateName + ".png";
-		String finalDestination = "./temp/../TestsScreenshots/" + screenshotName + dateName + ".png";
+		String destination = "./TestsScreenshots/" + screenshotName + dateName + ".png";
+		String finalDestination = "./../TestsScreenshots/" + screenshotName + dateName + ".png";
 		File file = new File(destination);
 		try {
 			FileUtils.copyFile(source, file);
@@ -160,13 +160,13 @@ public class DriverBase {
 
 	@BeforeSuite(alwaysRun = true)
 	public void clearData() {
-		String source1 = "./temp/TestsScreenshots";
+		String source1 = "./TestsScreenshots";
 		File file1 = new File(source1);
-		String source2 = "./temp/Report";
+		String source2 = "./Report";
 		File file2 = new File(source2);
-		String source3 = "./temp/TestOutput";
+		String source3 = "./TestOutput";
 		File file3 = new File(source3);
-		String source4 = "./temp/EmailableReport.zip";
+		String source4 = "./EmailableReport.zip";
 		File file4 = new File(source4);
 		try {
 			if (file1.exists()) {
@@ -185,18 +185,18 @@ public class DriverBase {
 			LOGGER.info(e.getMessage());
 		}
 
-		new File("./temp/TestOutput").mkdir();
-		new File("./temp/TestsScreenshots").mkdir();
+		new File("./TestOutput").mkdir();
+		new File("./TestsScreenshots").mkdir();
 	}
 
 	@Parameters({ "toEmailId", "fromEmailId", "senderName", "senderPassword" })
 	@AfterSuite(alwaysRun = true)
 	public void sendMail(String toEmailId, String fromEmailId, String senderName, String senderPassword) {
-		String source1 = "./temp/TestOutput";
-		String source2 = "./temp/TestsScreenshots";
-		String destination = "./temp/Report";
-		String destination1 = "./temp/Report/TestOutput";
-		String destination2 = "./temp/Report/TestsScreenshots";
+		String source1 = "./TestOutput";
+		String source2 = "./TestsScreenshots";
+		String destination = "./Report";
+		String destination1 = "./Report/TestOutput";
+		String destination2 = "./Report/TestsScreenshots";
 
 		new File(destination).mkdir();
 		File sourceFile1 = new File(source1);
@@ -236,7 +236,7 @@ public class DriverBase {
 			messageBodyPart1.setContent(createBodyForTheMail(), "text/html; charset=utf-8");
 
 			MimeBodyPart messageBodyPart2 = new MimeBodyPart();
-			String filename = "./temp/EmailableReport.zip";
+			String filename = "./EmailableReport.zip";
 			DataSource source = new FileDataSource(filename);
 			messageBodyPart2.setDataHandler(new DataHandler(source));
 			messageBodyPart2.setFileName(filename);
