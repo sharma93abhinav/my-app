@@ -85,8 +85,8 @@ public class DriverBase {
 	@BeforeClass(alwaysRun = true)
 	public void startReport(ITestContext ctx) {
 		suiteName = ctx.getCurrentXmlTest().getSuite().getName();
-		new File("./test-output").mkdir();
-		htmlReporter = new ExtentHtmlReporter("./test-output/" + suiteName + ".html");
+		String className = this.getClass().getSimpleName();
+		htmlReporter = new ExtentHtmlReporter("./test-output/" + className + ".html");
 		extent = new ExtentReports();
 		extent.attachReporter(htmlReporter);
 		extent.setSystemInfo("Host Name", "New Tours");
@@ -94,7 +94,7 @@ public class DriverBase {
 		extent.setSystemInfo("User Name", "Abhinav Sharma");
 
 		htmlReporter.config().setDocumentTitle("Automation Test Report");
-		htmlReporter.config().setReportName("Test - New Tours");
+		htmlReporter.config().setReportName("Test - " + className);
 		htmlReporter.config().setTestViewChartLocation(ChartLocation.TOP);
 		htmlReporter.config().setTheme(Theme.STANDARD);
 
@@ -103,18 +103,18 @@ public class DriverBase {
 	@AfterMethod(alwaysRun = true)
 	public void getResult(ITestResult result) {
 		if (result.getStatus() == ITestResult.FAILURE) {
-			logger.log(Status.FAIL, result.getName());
+			logger.log(Status.FAIL, result.getMethod().getMethodName());
 			logger.log(Status.FAIL, result.getThrowable());
 			String screenshotPath;
 			try {
-				screenshotPath = getScreenshot(driver, result.getName());
+				screenshotPath = getScreenshot(driver, result.getMethod().getMethodName());
 				logger.addScreenCaptureFromPath(screenshotPath);
 			} catch (IOException e) {
 				LOGGER.info(e.getMessage());
 			}
 			failedTestCasesCount++;
 		} else if (result.getStatus() == ITestResult.SKIP) {
-			logger.log(Status.SKIP, result.getName());
+			logger.log(Status.SKIP, result.getMethod().getMethodName());
 			skippedTestCasesCount++;
 		} else if (result.getStatus() == ITestResult.SUCCESS) {
 			passedTestCasesCount++;
@@ -184,11 +184,14 @@ public class DriverBase {
 		} catch (IOException e) {
 			LOGGER.info(e.getMessage());
 		}
+
+		new File("./test-output").mkdir();
+		new File("./TestsScreenshots").mkdir();
 	}
 
-	@Parameters({ "toEmailId", "fromEmailId", "senderName", "senderPassword", "host" })
+	@Parameters({ "toEmailId", "fromEmailId", "senderName", "senderPassword" })
 	@AfterSuite(alwaysRun = true)
-	public void sendMail(String toEmailId, String fromEmailId, String senderName, String senderPassword, String host) {
+	public void sendMail(String toEmailId, String fromEmailId, String senderName, String senderPassword) {
 		String source1 = "./test-output";
 		String source2 = "./TestsScreenshots";
 		String destination = "./Report";

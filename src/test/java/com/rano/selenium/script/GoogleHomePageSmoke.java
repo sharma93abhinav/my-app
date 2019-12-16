@@ -5,6 +5,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
+import com.aventstack.extentreports.Status;
 import com.rano.selenium.DriverBase;
 import com.rano.selenium.page.GoogleHomePage;
 
@@ -16,8 +17,9 @@ public class GoogleHomePageSmoke extends DriverBase {
 		return driver -> driver.getTitle().toLowerCase().startsWith(searchString.toLowerCase());
 	}
 
-	@Test
+	@Test(priority = 10)
 	public void googleCheeseExample() {
+		logger = extent.createTest("Navigate to Google and Search");
 		WebDriver driver = getDriver();
 		driver.get("http://www.google.com");
 
@@ -31,6 +33,13 @@ public class GoogleHomePageSmoke extends DriverBase {
 
 		String title = driver.getTitle();
 		Assert.assertEquals("cheese - Google Search", title);
+		logger.log(Status.PASS, verificationDetails("Verify the title of page", "cheese - Google Search", title));
+		getScreenshotInLogger("Title Validation");
+	}
+
+	@Test(priority = 11, alwaysRun = true)
+	public void tearDown() {
+		close();
 	}
 
 }
