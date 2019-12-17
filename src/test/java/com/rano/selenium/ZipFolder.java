@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -16,6 +17,8 @@ public class ZipFolder {
 	private static final String OUTPUT_ZIP_FILE = "./EmailableReport.zip";
 
 	private static final String SOURCE_FOLDER = "./Report";
+
+	private static final Logger LOGGER = Logger.getLogger(ZipFolder.class.getName());
 
 	public ZipFolder() {
 		fileList = new ArrayList<String>();
@@ -29,11 +32,11 @@ public class ZipFolder {
 		try {
 			fos = new FileOutputStream(OUTPUT_ZIP_FILE);
 			zos = new ZipOutputStream(fos);
-			
+
 			FileInputStream in = null;
 
 			for (String file : this.fileList) {
-				System.out.println("File Added : " + file);
+				LOGGER.info("File Added : " + file);
 				ZipEntry ze = new ZipEntry(source + File.separator + file);
 				zos.putNextEntry(ze);
 				try {
@@ -48,8 +51,7 @@ public class ZipFolder {
 			}
 
 			zos.closeEntry();
-			System.out.println("Folder successfully compressed");
-
+			LOGGER.info("Folder successfully compressed");
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} finally {

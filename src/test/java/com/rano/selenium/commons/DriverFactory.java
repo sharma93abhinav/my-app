@@ -32,6 +32,7 @@ public class DriverFactory {
 			driver.manage().window().maximize();
 		} else if (browserType.equalsIgnoreCase(FIREFOX_BROWSER)) {
 			WebDriverManager.firefoxdriver().setup();
+			// WebDriverManager.firefoxdriver().arch64().setup();
 			driver = new FirefoxDriver();
 			driver.manage().window().maximize();
 		} else if (browserType.equalsIgnoreCase(EDGE_BROWSER)) {

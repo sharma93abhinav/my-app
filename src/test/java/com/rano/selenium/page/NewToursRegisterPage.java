@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class NewToursRegisterPage {
 
 	final WebDriver driver;
-	
+
 	@FindBy(id = "email")
 	WebElement usernameTextbox;
 
@@ -57,6 +57,8 @@ public class NewToursRegisterPage {
 	}
 
 	public String getTextForWelcomeNote() {
+		WebDriverWait wait = new WebDriverWait(driver, 60);
+		wait.until(ExpectedConditions.visibilityOf(welcomeNote));
 		return welcomeNote.getText();
 	}
 
