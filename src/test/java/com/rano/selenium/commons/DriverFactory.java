@@ -31,10 +31,17 @@ public class DriverFactory {
 			driver = new ChromeDriver();
 			driver.manage().window().maximize();
 		} else if (browserType.equalsIgnoreCase(FIREFOX_BROWSER)) {
-			WebDriverManager.firefoxdriver().setup();
-			// WebDriverManager.firefoxdriver().arch64().setup();
+
+			/*
+			 * WebDriverManager.firefoxdriver().setup(); driver = new FirefoxDriver();
+			 * driver.manage().window().maximize();
+			 */
+			// temporary work around for firefox driver as web driver manager is not able to
+			// download correct greko driver
+			System.setProperty("webdriver.gecko.driver", "./Resources/geckodriver.exe");
 			driver = new FirefoxDriver();
 			driver.manage().window().maximize();
+
 		} else if (browserType.equalsIgnoreCase(EDGE_BROWSER)) {
 			WebDriverManager.edgedriver().setup();
 			driver = new EdgeDriver();
