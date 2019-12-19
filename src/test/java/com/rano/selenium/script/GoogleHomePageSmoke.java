@@ -13,6 +13,8 @@ import junit.framework.Assert;
 
 public class GoogleHomePageSmoke extends DriverBase {
 
+	private static WebDriver driver;
+	
 	private ExpectedCondition<Boolean> pageTitleStartsWith(final String searchString) {
 		return driver -> driver.getTitle().toLowerCase().startsWith(searchString.toLowerCase());
 	}
@@ -20,7 +22,7 @@ public class GoogleHomePageSmoke extends DriverBase {
 	@Test(priority = 1)
 	public void googleCheeseExample() {
 		logger = extent.createTest("Navigate to Google and Search");
-		WebDriver driver = getDriver();
+		driver = getDriver();
 		driver.get("http://www.google.com");
 
 		GoogleHomePage googleHomePage = new GoogleHomePage(driver);
