@@ -48,7 +48,15 @@ public class DriverBase {
 
 	private static final Logger LOGGER = Logger.getLogger(DriverBase.class.getName());
 
-	private static String defaultBrowserType = "CHROME";
+	private static final String DEFAULT_BROWSER_TYPE = "CHROME";
+
+	private static final String TEST_SCREENSHOT_PATH = "./TestsScreenshots";
+
+	private static final String REPORT_PATH = "./Report";
+
+	private static final String TEST_OUTPUT_PATH = "./TestOutput";
+
+	private static final String EMAILABLE_REPORT_PATH = "./EmailableReport.zip";
 
 	private static WebDriver driver;
 
@@ -70,7 +78,7 @@ public class DriverBase {
 
 	public WebDriver getDriver() {
 		String browser = System.getProperty("browser");
-		browserType = browser.equals("") ? defaultBrowserType : browser;
+		browserType = browser.equals("") ? DEFAULT_BROWSER_TYPE : browser;
 		LOGGER.info("Browser type is " + browserType.toUpperCase());
 		DriverFactory driverFactory = new DriverFactory();
 		driver = driverFactory.getDriver(browserType);
@@ -86,7 +94,7 @@ public class DriverBase {
 	public void startReport(ITestContext ctx) {
 		suiteName = ctx.getCurrentXmlTest().getSuite().getName();
 		String className = this.getClass().getSimpleName();
-		htmlReporter = new ExtentHtmlReporter("./TestOutput/" + className + ".html");
+		htmlReporter = new ExtentHtmlReporter(TEST_OUTPUT_PATH + "/" + className + ".html");
 		extent = new ExtentReports();
 		extent.attachReporter(htmlReporter);
 		extent.setSystemInfo("Host Name", "New Tours");
@@ -133,8 +141,8 @@ public class DriverBase {
 		String dateName = timeMilli.toString();
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
-		String destination = "./TestsScreenshots/" + screenshotName + dateName + ".png";
-		String finalDestination = "./../TestsScreenshots/" + screenshotName + dateName + ".png";
+		String destination = TEST_SCREENSHOT_PATH + "/" + screenshotName + dateName + ".png";
+		String finalDestination = "./." + TEST_SCREENSHOT_PATH + "/" + screenshotName + dateName + ".png";
 		File file = new File(destination);
 		try {
 			FileUtils.copyFile(source, file);
@@ -160,13 +168,13 @@ public class DriverBase {
 
 	@BeforeSuite(alwaysRun = true)
 	public void clearData() {
-		String source1 = "./TestsScreenshots";
+		String source1 = TEST_SCREENSHOT_PATH;
 		File file1 = new File(source1);
-		String source2 = "./Report";
+		String source2 = REPORT_PATH;
 		File file2 = new File(source2);
-		String source3 = "./TestOutput";
+		String source3 = TEST_OUTPUT_PATH;
 		File file3 = new File(source3);
-		String source4 = "./EmailableReport.zip";
+		String source4 = EMAILABLE_REPORT_PATH;
 		File file4 = new File(source4);
 		try {
 			if (file1.exists()) {
@@ -185,18 +193,18 @@ public class DriverBase {
 			LOGGER.info(e.getMessage());
 		}
 
-		new File("./TestOutput").mkdir();
-		new File("./TestsScreenshots").mkdir();
+		new File(TEST_OUTPUT_PATH).mkdir();
+		new File(TEST_SCREENSHOT_PATH).mkdir();
 	}
 
 	@Parameters({ "toEmailId", "fromEmailId", "senderName", "senderPassword" })
 	@AfterSuite(alwaysRun = true)
 	public void sendMail(String toEmailId, String fromEmailId, String senderName, String senderPassword) {
-		String source1 = "./TestOutput";
-		String source2 = "./TestsScreenshots";
-		String destination = "./Report";
-		String destination1 = "./Report/TestOutput";
-		String destination2 = "./Report/TestsScreenshots";
+		String source1 = TEST_OUTPUT_PATH;
+		String source2 = TEST_SCREENSHOT_PATH;
+		String destination = REPORT_PATH;
+		String destination1 = REPORT_PATH + "/TestOutput";
+		String destination2 = REPORT_PATH + "/TestsScreenshots";
 
 		new File(destination).mkdir();
 		File sourceFile1 = new File(source1);
@@ -236,7 +244,7 @@ public class DriverBase {
 			messageBodyPart1.setContent(createBodyForTheMail(), "text/html; charset=utf-8");
 
 			MimeBodyPart messageBodyPart2 = new MimeBodyPart();
-			String filename = "./EmailableReport.zip";
+			String filename = EMAILABLE_REPORT_PATH;
 			DataSource source = new FileDataSource(filename);
 			messageBodyPart2.setDataHandler(new DataHandler(source));
 			messageBodyPart2.setFileName(filename);
