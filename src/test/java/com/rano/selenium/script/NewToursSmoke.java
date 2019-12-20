@@ -143,7 +143,7 @@ public class NewToursSmoke extends DriverBase {
 		newToursFlightConfirmationPage.navToLogout();
 	}
 
-	@Test(priority = 7)
+	//@Test(priority = 7)
 	public void checkforWelcomeBackText() {
 		logger = extent.createTest("Verify Welcome Text");
 		NewToursHomePage newToursHomePage = new NewToursHomePage(driver);
