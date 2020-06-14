@@ -4,18 +4,28 @@
 	<parameter name="password" value="password" />
 	<parameter name="url"
 		value="http://newtours.demoaut.com/mercurywelcome.php" />
+	<parameter name="url2" value="https://m2stage.ego.co.uk/" />
 	<parameter name="toEmailId"
 		value="abhinav.sharma@ranosys.com" />
 	<parameter name="fromEmailId"
 		value="ranotestautomation@gmail.com" />
 	<parameter name="senderName" value="Rano" />
 	<parameter name="senderPassword" value="jimmy_007" />
+	<parameter name="productName"
+		value="Mandi Diamante Detail Fishnet Block Heel In Black" />
+	<parameter name="size"
+		value="UK 3 / US 5 / EU 36  (In Stock)" />
 	<test name="Test One" preserve-order="true">
+		<classes>
+			<class name="com.rano.selenium.script.EgoDemoSmoke" />
+		</classes>
+	</test>
+	<test name="Test Two" preserve-order="true">
 		<classes>
 			<class name="com.rano.selenium.script.NewToursSmoke" />
 		</classes>
 	</test>
-	<test name="Test two" preserve-order="true">
+	<test name="Test Three" preserve-order="true">
 		<classes>
 			<class name="com.rano.selenium.script.GoogleHomePageSmoke" />
 		</classes>
