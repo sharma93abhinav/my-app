@@ -1,5 +1,6 @@
 package com.rano.selenium.page;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -36,7 +37,8 @@ public class EgoProductPage {
 	}
 
 	public void clickOnAddToBag() {
-		addToBagButton.click();
+		JavascriptExecutor executor = (JavascriptExecutor)driver;
+		executor.executeScript("arguments[0].click();", addToBagButton);
 	}
 
 	public void selectSize(String size) {
