@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suite name="NewTours">
+<suite name="EgoSmokeTest">
 	<parameter name="username" value="dummyuser" />
 	<parameter name="password" value="password" />
 	<parameter name="url"
@@ -20,7 +20,7 @@
 			<class name="com.rano.selenium.script.EgoDemoSmoke" />
 		</classes>
 	</test>
-	<test name="Test Two" preserve-order="true">
+	<!-- <test name="Test Two" preserve-order="true">
 		<classes>
 			<class name="com.rano.selenium.script.NewToursSmoke" />
 		</classes>
@@ -29,5 +29,5 @@
 		<classes>
 			<class name="com.rano.selenium.script.GoogleHomePageSmoke" />
 		</classes>
-	</test>
+	</test> -->
 </suite>
